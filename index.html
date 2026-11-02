@@ -20,7 +20,7 @@ header p{color:#94A3B8;font-size:.92rem}
 .container{max-width:780px;margin:-18px auto 0;padding:0 16px}
 .search-box{background:var(--card);padding:12px 16px;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;border:1px solid var(--border)}
 .search-box input{width:100%;border:none;outline:none;font-size:1rem;color:var(--text);background:transparent}
-.cat-section-header{margin:20px 4px 6px}
+.cat-section-header{margin:22px 4px 8px}
 .cat-section-header h2{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:2px}
 .cat-section-header p{font-size:.82rem;color:var(--muted)}
 .filters-wrapper{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
@@ -31,16 +31,16 @@ header p{color:#94A3B8;font-size:.92rem}
 .filter-btn{background:#fff;border:1px solid var(--border);padding:8px 14px;border-radius:20px;font-size:.82rem;font-weight:600;color:var(--muted);white-space:nowrap;cursor:pointer;flex-shrink:0}
 .filter-btn.active{background:#0F172A;color:#fff;border-color:#0F172A}
 .stats-bar{display:flex;justify-content:space-between;margin:12px 4px 16px;font-size:.85rem;color:var(--muted);font-weight:500}
-.job-list{display:flex;flex-direction:column;gap:12px}
-.job-card{background:var(--card);border-radius:14px;padding:16px 18px;border:1px solid var(--border);box-shadow:0 2px 6px rgba(0,0,0,.03);display:flex;flex-direction:column;gap:10px}
+.job-list{display:flex;flex-direction:column;gap:14px}
+.job-card{background:var(--card);border-radius:14px;padding:18px 20px;border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.04);display:flex;flex-direction:column;gap:10px}
 .card-top{display:flex;justify-content:space-between;align-items:center}
-.cat-tag{font-size:.72rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px}
+.cat-tag{font-size:.72rem;font-weight:700;color:#fff;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;display:inline-block}
 .job-date{font-size:.78rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px}
 .job-title{font-size:1.05rem;font-weight:700;line-height:1.35;color:#0F172A}
 .job-company{font-size:.88rem;color:var(--muted);display:flex;align-items:center;gap:6px}
-.postular-btn{display:block;width:100%;text-align:center;background:#1D4ED8;color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:12px;border-radius:10px;margin-top:4px}
-.postular-btn:hover{background:#1E40AF}
-.postular-btn.off{background:#94A3B8;cursor:not-allowed}
+.postular-btn{display:block;width:100%;text-align:center;background:#1565D8;color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:12px;border-radius:8px;margin-top:4px;box-shadow:0 2px 6px rgba(21,101,216,.2);transition:background .2s ease}
+.postular-btn:hover{background:#0D47A1}
+.postular-btn.off{background:#94A3B8;cursor:not-allowed;box-shadow:none}
 .no-results{text-align:center;padding:50px 20px;color:var(--muted)}
 .sk{gap:12px}
 .sk i{display:block;border-radius:6px;background:linear-gradient(90deg,#E2E8F0 25%,#F1F5F9 50%,#E2E8F0 75%);background-size:200% 100%;animation:sh 1.2s infinite}
@@ -112,18 +112,32 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
 </main>
 
 <script>
-const CACHE_KEY = "ofertas_puerto_montt_v9";
+const CACHE_KEY = "ofertas_puerto_montt_v10";
 
 const CAT_COLORS = {
-  comercial:'#FF8A00',ventas:'#FF8A00',retail:'#FF8A00',
-  tecnico:'#00CED1',técnico:'#00CED1',mantenimiento:'#00CED1',mantencion:'#00CED1',
-  logistica:'#D4AC0D',logística:'#D4AC0D',bodega:'#D4AC0D',
-  administrativo:'#1565D8',oficina:'#1565D8',rrhh:'#1565D8',
-  salud:'#2EAF62',tens:'#2EAF62',
-  construccion:'#FF0000',construcción:'#FF0000',
-  educacion:'#9C27B0',educación:'#9C27B0',
-  gastronomia:'#795548',gastronomía:'#795548',cocina:'#795548',
-  otros:'#999999'
+  comercial: '#FF8A00',
+  ventas: '#FF8A00',
+  retail: '#FF8A00',
+  tecnico: '#00CED1',
+  técnico: '#00CED1',
+  mantenimiento: '#00CED1',
+  mantencion: '#00CED1',
+  logistica: '#D4AC0D',
+  logística: '#D4AC0D',
+  bodega: '#D4AC0D',
+  administrativo: '#1565D8',
+  oficina: '#1565D8',
+  rrhh: '#1565D8',
+  salud: '#2EAF62',
+  tens: '#2EAF62',
+  construccion: '#FF0000',
+  construcción: '#FF0000',
+  educacion: '#9C27B0',
+  educación: '#9C27B0',
+  gastronomia: '#795548',
+  gastronomía: '#795548',
+  cocina: '#795548',
+  otros: '#808080'
 };
 
 let jobsData = [], activeCategory = 'all', searchQuery = '';
@@ -133,8 +147,10 @@ function esc(s){return String(s == null ? '' : s).replace(/[<>"']/g, c => ({'<':
 
 function colorOf(cat){
   const l = String(cat || '').toLowerCase(); 
-  for (const [k,v] of Object.entries(CAT_COLORS)) if (l.includes(k)) return v; 
-  return '#999999';
+  for (const [k,v] of Object.entries(CAT_COLORS)) {
+    if (l.includes(k)) return v;
+  }
+  return '#808080';
 }
 
 function renderJobs(){
@@ -149,10 +165,18 @@ function renderJobs(){
   $('noResults').style.display = 'none';
   $('jobList').innerHTML = list.map(j => {
     const ok = j.url && String(j.url).startsWith('http');
+    const emp = esc(j.empresa || 'Empresa confidencial');
+    const cargoFull = (j.cargo.includes('|') || j.cargo.includes('Puerto Montt')) 
+      ? esc(j.cargo) 
+      : `${esc(j.cargo)} | ${emp} | Puerto Montt`;
+
     return `<div class="job-card">
-      <div class="card-top"><span class="cat-tag" style="background:${colorOf(j.cat)}">${esc(j.cat)}</span><span class="job-date">📅 ${esc(j.fecha)}</span></div>
-      <div class="job-title">${esc(j.cargo)}</div>
-      <div class="job-company">🏢 ${esc(j.empresa || 'Empresa confidencial')}</div>
+      <div class="card-top">
+        <span class="cat-tag" style="background:${colorOf(j.cat)}">${esc(j.cat)}</span>
+        <span class="job-date">🗓️ ${esc(j.fecha)}</span>
+      </div>
+      <div class="job-title">${cargoFull}</div>
+      <div class="job-company">🏢 ${emp}</div>
       ${ok ? `<a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer" class="postular-btn">Postular en sitio oficial</a>` : `<span class="postular-btn off">POSTULACIÓN NO DISPONIBLE</span>`}
     </div>`;
   }).join('');
@@ -162,7 +186,9 @@ $('searchInput').addEventListener('input', e => { searchQuery = e.target.value.t
 
 document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', () => {
   document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active'));
-  b.classList.add('active'); activeCategory = b.dataset.cat; renderJobs();
+  b.classList.add('active'); 
+  activeCategory = b.dataset.cat; 
+  renderJobs();
 }));
 
 const sc = $('filtersScroll');
@@ -177,7 +203,8 @@ try {
 
 function showError(){
   if (jobsData.length) return;
-  $('jobList').innerHTML = ''; $('jobCount').textContent = '';
+  $('jobList').innerHTML = ''; 
+  $('jobCount').textContent = '';
   $('noResults').innerHTML = '<p style="color:#DC2626">No se pudieron cargar las ofertas. Recarga la página en unos minutos.</p>';
   $('noResults').style.display = 'block';
 }
