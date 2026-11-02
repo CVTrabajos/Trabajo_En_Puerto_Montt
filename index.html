@@ -20,21 +20,24 @@ header p{color:#94A3B8;font-size:.92rem}
 .container{max-width:780px;margin:-18px auto 0;padding:0 16px}
 .search-box{background:var(--card);padding:12px 16px;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;align-items:center;gap:10px;border:1px solid var(--border)}
 .search-box input{width:100%;border:none;outline:none;font-size:1rem;color:var(--text);background:transparent}
-.filters-wrapper{display:flex;align-items:center;gap:6px;margin:12px 0 8px}
+.cat-section-header{margin:20px 4px 6px}
+.cat-section-header h2{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.cat-section-header p{font-size:.82rem;color:var(--muted)}
+.filters-wrapper{display:flex;align-items:center;gap:6px;margin:8px 0 12px}
 .filters-scroll{display:flex;gap:8px;overflow-x:auto;padding:6px 0;scrollbar-width:none;scroll-behavior:smooth;flex:1}
 .filters-scroll::-webkit-scrollbar{display:none}
 .scroll-arrow{background:#fff;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.25rem;cursor:pointer;flex-shrink:0;user-select:none}
 .scroll-arrow:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
 .filter-btn{background:#fff;border:1px solid var(--border);padding:8px 14px;border-radius:20px;font-size:.82rem;font-weight:600;color:var(--muted);white-space:nowrap;cursor:pointer;flex-shrink:0}
-.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-.stats-bar{display:flex;justify-content:space-between;margin:10px 4px 16px;font-size:.85rem;color:var(--muted);font-weight:500}
+.filter-btn.active{background:#0F172A;color:#fff;border-color:#0F172A}
+.stats-bar{display:flex;justify-content:space-between;margin:12px 4px 16px;font-size:.85rem;color:var(--muted);font-weight:500}
 .job-list{display:flex;flex-direction:column;gap:12px}
 .job-card{background:var(--card);border-radius:14px;padding:16px 18px;border:1px solid var(--border);box-shadow:0 2px 6px rgba(0,0,0,.03);display:flex;flex-direction:column;gap:10px}
 .card-top{display:flex;justify-content:space-between;align-items:center}
-.cat-tag{font-size:.75rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px}
-.job-date{font-size:.78rem;color:var(--muted);font-weight:600}
-.job-title{font-size:1.05rem;font-weight:700;line-height:1.35}
-.job-company{font-size:.88rem;color:var(--muted)}
+.cat-tag{font-size:.72rem;font-weight:700;color:#fff;padding:4px 10px;border-radius:6px;text-transform:uppercase;letter-spacing:.4px}
+.job-date{font-size:.78rem;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:4px}
+.job-title{font-size:1.05rem;font-weight:700;line-height:1.35;color:#0F172A}
+.job-company{font-size:.88rem;color:var(--muted);display:flex;align-items:center;gap:6px}
 .postular-btn{display:block;width:100%;text-align:center;background:#1D4ED8;color:#fff;text-decoration:none;font-weight:700;font-size:.92rem;padding:12px;border-radius:10px;margin-top:4px}
 .postular-btn:hover{background:#1E40AF}
 .postular-btn.off{background:#94A3B8;cursor:not-allowed}
@@ -50,7 +53,7 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
 <header>
   <div class="header-content">
     <div class="header-top-row">
-      <span class="badge-top">PUERTO MONTT Y REGIÓN DE LOS LAGOS</span>
+      <span class="badge-top">CIUDAD DE PUERTO MONTT Y REGIÓN DE LOS LAGOS</span>
       <a href="https://instagram.com/trabajo_en_puerto_montt" target="_blank" rel="noopener noreferrer" class="ig-button">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
         @trabajo_en_puerto_montt
@@ -65,6 +68,12 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
     <input type="text" id="searchInput" placeholder="Buscar por cargo, empresa o palabra clave...">
   </div>
+
+  <div class="cat-section-header">
+    <h2>Categorías de empleo</h2>
+    <p>Filtra las ofertas según tu rubro o área laboral</p>
+  </div>
+
   <div class="filters-wrapper">
     <button class="scroll-arrow" id="scrollLeft" aria-label="Izquierda">‹</button>
     <div class="filters-scroll" id="filtersScroll">
@@ -81,12 +90,21 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
     </div>
     <button class="scroll-arrow" id="scrollRight" aria-label="Derecha">›</button>
   </div>
-  <div class="stats-bar"><span id="jobCount">Cargando vacantes...</span><span>Región de Los Lagos</span></div>
+
+  <div class="stats-bar">
+    <span id="jobCount">Cargando vacantes...</span>
+    <span>📍 Ciudad de Puerto Montt, Región de Los Lagos</span>
+  </div>
+
   <div class="job-list" id="jobList">
     <div class="job-card sk"><i style="height:22px;width:35%"></i><i style="height:20px;width:80%"></i><i style="height:16px;width:50%"></i><i style="height:44px"></i></div>
     <div class="job-card sk"><i style="height:22px;width:30%"></i><i style="height:20px;width:70%"></i><i style="height:16px;width:45%"></i><i style="height:44px"></i></div>
   </div>
-  <div class="no-results" id="noResults" style="display:none"><p>No se encontraron vacantes para este criterio de búsqueda.</p></div>
+
+  <div class="no-results" id="noResults" style="display:none">
+    <p>No se encontraron vacantes para este criterio de búsqueda.</p>
+  </div>
+
   <footer>
     <div class="disclaimer"><strong>⚠️ Información Importante:</strong> Nosotros no gestionamos postulaciones, no recibimos currículums ni representamos a las empresas contratantes. Nunca transfieras dinero para participar en procesos de selección.</div>
     <p>© Trabajo en Puerto Montt • Comunidad de empleo regional</p>
@@ -95,7 +113,7 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
 <script>
 const CIUDAD_NOMBRE = "Puerto Montt";
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZF9Ih52LwBeo4Y3SEbnvEhBzKKDjZWi_Um_ulJ1OZaZhEV8gIJW4J7UMTopNjbqma/exec";
-const CACHE_KEY = "ofertas_puerto_montt_v3";
+const CACHE_KEY = "ofertas_puerto_montt_v5";
 const INSTAGRAM_USER = "@trabajo_en_puerto_montt";
 
 const CAT_COLORS = {
@@ -128,16 +146,16 @@ function renderJobs(){
     const txt = `${j.cargo || ''} ${j.empresa || ''} ${catTxt}`.toLowerCase();
     return txt.includes(q) && (cat === 'all' || catTxt.includes(cat));
   });
-  $('jobCount').textContent = `${list.length} vacante${list.length === 1 ? '' : 's'} disponible${list.length === 1 ? '' : 's'}`;
+  $('jobCount').textContent = `${list.length} ofertas disponibles`;
   if (!list.length){ $('jobList').innerHTML = ''; $('noResults').style.display = 'block'; return; }
   $('noResults').style.display = 'none';
   $('jobList').innerHTML = list.map(j => {
     const ok = j.url && String(j.url).startsWith('http');
     return `<div class="job-card">
-      <div class="card-top"><span class="cat-tag" style="background:${colorOf(j.cat)}">${esc(j.cat)}</span><span class="job-date">${esc(j.fecha)}</span></div>
+      <div class="card-top"><span class="cat-tag" style="background:${colorOf(j.cat)}">${esc(j.cat)}</span><span class="job-date">📅 ${esc(j.fecha)}</span></div>
       <div class="job-title">${esc(j.cargo)}</div>
-      <div class="job-company"><span>🏢</span> ${esc(j.empresa || 'Empresa confidencial')}</div>
-      ${ok ? `<a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer" class="postular-btn">POSTULAR AL EMPLEO →</a>` : `<span class="postular-btn off">POSTULACIÓN NO DISPONIBLE</span>`}
+      <div class="job-company">🏢 ${esc(j.empresa || 'Empresa confidencial')}</div>
+      ${ok ? `<a href="${esc(j.url)}" target="_blank" rel="noopener noreferrer" class="postular-btn">Postular en sitio oficial</a>` : `<span class="postular-btn off">POSTULACIÓN NO DISPONIBLE</span>`}
     </div>`;
   }).join('');
 }
@@ -176,15 +194,16 @@ function aplicar(data, esLive){
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e){}
 }
 
-fetch('ofertas.json', {cache: 'no-cache'})
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(d => aplicar(d, false))
-  .catch(() => { failed++; showError(); });
-
 fetch(APPS_SCRIPT_URL)
   .then(r => r.json())
   .then(d => aplicar(d, true))
-  .catch(() => { failed++; showError(); });
+  .catch(() => {
+    failed++;
+    fetch('ofertas.json', {cache: 'no-cache'})
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => aplicar(d, false))
+      .catch(() => { failed++; showError(); });
+  });
 </script>
 </body>
 </html>
