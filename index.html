@@ -112,7 +112,8 @@ footer{max-width:680px;margin:40px auto 0;text-align:center;padding:0 20px;font-
 </main>
 
 <script>
-const CACHE_KEY = "ofertas_puerto_montt_v10";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyvxMEe-_eRRjsM7eCw0XThGfIUlBf52tVcGda_0AB6t3h4oLRTaGrWyfcp-qYEFpRx/exec";
+const CACHE_KEY = "ofertas_puerto_montt_v12";
 
 const CAT_COLORS = {
   comercial: '#FF8A00',
@@ -201,6 +202,8 @@ try {
   if (Array.isArray(cached) && cached.length){ jobsData = cached; renderJobs(); }
 } catch(e){}
 
+let liveLoaded = false;
+
 function showError(){
   if (jobsData.length) return;
   $('jobList').innerHTML = ''; 
@@ -209,20 +212,26 @@ function showError(){
   $('noResults').style.display = 'block';
 }
 
-function aplicar(data){
-  if (!Array.isArray(data) || !data.length) { showError(); return; }
+function aplicar(data, esLive){
+  if (!Array.isArray(data) || !data.length) return;
+  if (!esLive && liveLoaded) return;
+  if (esLive) liveLoaded = true;
   jobsData = data; 
   renderJobs();
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch(e){}
 }
 
+// 1. Carga inmediata desde ofertas.json
 fetch('ofertas.json?v=' + Date.now(), { cache: 'no-store' })
-  .then(r => {
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.json();
-  })
-  .then(d => aplicar(d))
-  .catch(() => showError());
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(d => aplicar(d, false))
+  .catch(() => { if (!jobsData.length) showError(); });
+
+// 2. Intento en paralelo a Apps Script
+fetch(APPS_SCRIPT_URL)
+  .then(r => r.json())
+  .then(d => aplicar(d, true))
+  .catch(() => {});
 </script>
 </body>
 </html>
