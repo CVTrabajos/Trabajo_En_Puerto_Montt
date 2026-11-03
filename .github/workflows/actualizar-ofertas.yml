@@ -12,21 +12,21 @@ jobs:
   update-offers:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout del repositorio
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Descargar ofertas desde Google Apps Script
+      - name: Descargar ofertas desde Apps Script
         run: |
           curl -L -s -o temp_ofertas.json "https://script.google.com/macros/s/AKfycbyvxMEe-_eRRjsM7eCw0XThGfIUlBf52tVcGda_0AB6t3h4oLRTaGrWyfcp-qYEFpRx/exec"
           if grep -q '\[{' temp_ofertas.json; then
             mv temp_ofertas.json ofertas.json
             echo "Ofertas actualizadas con exito."
           else
-            echo "Respuesta invalida o vacia recibida de Apps Script. Manteniendo ofertas vigentes."
+            echo "Respuesta invalida recibida de Apps Script. Se mantiene archivo vigente."
             rm -f temp_ofertas.json
           fi
 
-      - name: Confirmar y subir cambios
+      - name: Commit y push si hay cambios
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
